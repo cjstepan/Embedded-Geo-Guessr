@@ -50,3 +50,13 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# MPLab Files
+*.mcw
+*.mcs
+
+# Build Directory
+ build/*
+
+ # VS Code
+ .vscode/*
