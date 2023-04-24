@@ -18,15 +18,14 @@ void Wait_ms(unsigned int X)
 
    for (i=0; i<X; i++)
       for (j=0; j<617; j++);
-   }
+}
 
 
 void LCD_Pause(void)
 {
    unsigned char x;
    for (x=0; x<20; x++);
-   }
-
+}
 
 void LCD_Strobe(void)
 {
@@ -36,13 +35,12 @@ void LCD_Strobe(void)
    LCD_Pause();
    RD3 = 0;
    LCD_Pause();
-   }
-         
+}
 //  write a byte to the LCD in 4 bit mode 
 
 void LCD_Inst(unsigned char c)
 {
-    RD2 = 0;        // send an instruction
+   RD2 = 0;        // send an instruction
 	PORTD = (PORTD & 0x0F) |  (c & 0xF0);
 	LCD_Strobe();
 	PORTD = (PORTD & 0x0F) |  ((c<<4) & 0xF0);
@@ -60,7 +58,7 @@ void LCD_Move(unsigned char Row, unsigned char Col)
    
 void LCD_Write(unsigned char c)
 {
-    RD2 = 1;        // send data
+   RD2 = 1;        // send data
 	PORTD = (PORTD & 0x0F) |  (c & 0xF0);
 	LCD_Strobe();
 	PORTD = (PORTD & 0x0F) |  ((c<<4)  & 0xF0);
@@ -68,6 +66,15 @@ void LCD_Write(unsigned char c)
 	
 }
 
+void LCD_writeLine(unsigned char *line, unsigned char row)
+{
+   unsigned char i;
+   LCD_Move(row, 0);
+   for (i=0; i<16; i++) 
+   {
+      LCD_Write(line[i]);
+   }
+}
 
 void LCD_Init(void)
 {
@@ -120,16 +127,11 @@ void SCI_Out(long int DATA, unsigned char D, unsigned char N)
       if (i == N) { while(!TRMT); TXREG = '.'; }
       while(!TRMT);  TXREG = A[i-1] + 48;
       }
-   }
+}
 
 
 void SCI_CRLF(void)
 {
    while(!TRMT);  TXREG = 13;
    while(!TRMT);  TXREG = 10;
-   }
-
-
-
-   
-
+}
