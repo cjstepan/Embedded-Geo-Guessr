@@ -56,7 +56,7 @@ dkms.conf
 *.mcs
 
 # Build Directory
- build/*
+build/*
 
- # VS Code
- .vscode/*
+# VS Code
+.vscode/*
