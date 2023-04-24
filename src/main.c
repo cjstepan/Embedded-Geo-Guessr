@@ -21,11 +21,7 @@ void main(void)
 
    LCD_Init(); // initialize the LCD
 
-   LCD_Move(0, 0);
-   for (i = 0; i < 16; i++)
-   {
-      LCD_Write(MSG0[i]);
-   }
+   LCD_writeLine(MSG0, 0);
 
    TIME = 0;
 
