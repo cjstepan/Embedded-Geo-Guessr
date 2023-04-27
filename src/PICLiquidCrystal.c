@@ -102,3 +102,16 @@ void LCD_Out(long int DATA, unsigned char D, unsigned char N)
 		LCD_Write(A[i - 1] + '0');
 	}
 }
+
+LCD_Create_Char(int address, int data[])
+{
+	address = address % 8;
+
+	// send CGRAM address instruction
+	LCD_Inst(0x40 | (address << 3));
+
+	for (int i = 0; i < 8; i++)
+	{
+		LCD_Write(data[i]);
+	}
+}

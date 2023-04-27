@@ -20,6 +20,8 @@ void LCD_Init(void);
 
 void LCD_Out(long int DATA, unsigned char D, unsigned char N);
 
+LCD_Create_Char(int address, int data[]);
+
 
 
 
