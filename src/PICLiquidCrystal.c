@@ -115,3 +115,31 @@ LCD_Create_Char(int address, int data[])
 		LCD_Write(data[i]);
 	}
 }
+
+
+void SCI_Out(long int DATA, unsigned char D, unsigned char N)
+{
+   unsigned char A[10], i;
+
+   while(!TRMT);   
+   if(DATA < 0) {
+      TXREG = '-';
+      DATA = -DATA;
+      }
+   else TXREG = ' ';
+   for (i=0; i<10; i++) {
+      A[i] = DATA % 10;
+      DATA = DATA / 10;
+      }
+   for (i=D; i>0; i--) {
+      if (i == N) { while(!TRMT); TXREG = '.'; }
+      while(!TRMT);  TXREG = A[i-1] + 48;
+      }
+}
+
+
+void SCI_CRLF(void)
+{
+   while(!TRMT);  TXREG = 13;
+   while(!TRMT);  TXREG = 10;
+}
