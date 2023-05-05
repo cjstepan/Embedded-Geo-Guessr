@@ -1,5 +1,0 @@
-46.894494, -96.801560 , NDSU ECE Building
-46.893185, -96.798746 , Churchill Field
-46.898577, -96.803808 , Newman Outdoor Field
-46.918720, -96.816482 , Hector International Airport
-46.902992, -96.799206 , Fargodome
