@@ -22,6 +22,10 @@ void LCD_Out(long int DATA, unsigned char D, unsigned char N);
 
 LCD_Create_Char(int address, int data[]);
 
+void SCI_Out(long int DATA, unsigned char D, unsigned char N);
+
+void SCI_CRLF(void);
+
 
 
 
