@@ -1,75 +1,49 @@
-// main.c
-// A starting point for this project
-
+/**
+ * @file main.c
+ * @brief Main file for the project
+ * @details This file contains the main function for the project. It initializes
+ * the LCD, serial port, and timer2. It also contains the high-priority interrupt
+ * service routine.
+ * 
+ * @date 2023-05-05
+ * 
+ * @authors Simon K., Calvin S.
+*/
 #include <pic18.h>
-#include "PICLiquidCrystal.h"
-#include <SerialGPS.h>
-
-const unsigned char MSG0[16] = "Hello world!    ";
-
-const int bellChar[] =
-    {
-        0B00000,
-        0B00100,
-        0B01110,
-        0B01110,
-        0B01110,
-        0B11111,
-        0B11111,
-        0B00000};
+#include "../include/picliquidcrystal.h"
+#include "../include/SerialGPS.h"
+#include "../include/MenuInterface.h"
 
 // High-priority service
 void interrupt IntServe(void)
 {
+   timer2ISR();
    serialISR();
 }
 
 void main(void)
 {
-   unsigned int i, j;
-   unsigned int TIME;
 
    TRISA = 0;
-   TRISB = 0;
+   TRISB = 0xFF;
    TRISC = 0;
    TRISD = 0;
    TRISE = 0;
    ADCON1 = 0x0F;
 
-   LCD_Init();    // initialize the LCD
-   Serial_Init(); // initialize the serial port @9600 baud
-
-   LCD_Create_Char(0, bellChar);
-
-   LCD_writeLine(MSG0, 0);
-
-   LCD_Move(0, 14);
-   LCD_Write(0); // write custom char at CGRAM address 0
-
-   TIME = 0;
+   LCD_Init();
+   Serial_Init();
+   menuInit(); // Initialize the menu
+   timer2Init();
 
    while (1)
    {
-      if (FLAG)
-      {
-         GPS_parseData();
+      LCD_Move(0, 9);
+      LCD_Out(GPS_calcDistanceFargo(gps.latitude * 100000.0, gps.longitude * 100000.0, targetLat, targetLong), 5, 1);
 
-         for (int i = 0; i < 80; i++)
-         {
-            while (!TRMT)
-            {
-               ;
-            }
-            TXREG = GPSRAW[i];
-         }
+      LCD_Move(1, 7);
+      LCD_Out(TIME, 7, 3);
 
-         SCI_CRLF();
-         FLAG = 0;
-      }
-
-      LCD_Move(0, 0);
-      LCD_Out((long)(gps.latitude * 100000.0), 8, 5);
-      LCD_Move(1, 0);
-      LCD_Out((long)(gps.longitude * 100000.0), 8, 5);
+      Wait_ms(100);
    }
 }
