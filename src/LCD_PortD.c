@@ -76,6 +76,18 @@ void LCD_writeLine(unsigned char *line, unsigned char row)
    }
 }
 
+void LCD_writeChar(unsigned char c, unsigned char row, unsigned char col)
+{
+   LCD_Move(row, col);
+   LCD_Write(c);
+}
+
+void LCD_Clear(void)
+{
+   LCD_Inst(0x01);
+   Wait_ms(10);
+}
+
 void LCD_Init(void)
 {
    TRISD = 0;       

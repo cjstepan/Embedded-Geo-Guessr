@@ -16,6 +16,10 @@ void LCD_Write(unsigned char c);
 
 void LCD_writeLine(unsigned char *lineBuffer, unsigned char row);
 
+void LCD_writeChar(unsigned char c, unsigned char row, unsigned char col);
+
+void LCD_Clear(void);
+
 void LCD_Init(void);
 
 void LCD_Out(long int DATA, unsigned char D, unsigned char N);
