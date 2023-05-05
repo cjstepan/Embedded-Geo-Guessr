@@ -38,7 +38,7 @@ void Serial_Init(void){
 }
 
 void serialISR(void){
-     if (RCIF)
+   if (RCIF)
    {
       TEMP = RCREG; // Read the serial register bit
       // TXREG = TEMP; // data in, data out
@@ -73,52 +73,56 @@ void serialISR(void){
 
 
 
-void GPS_parseData(void){
+void GPS_parseData(void)
+{
 
-    gps.timestamp = (GPSRAW[7]-48)*100000   +
-                    (GPSRAW[8]-48)*10000    +
-                    (GPSRAW[9]-48)*1000     +
-                    (GPSRAW[10]-48)*100     +
-                    (GPSRAW[11]-48)*10      +
-                    (GPSRAW[12]-48)*1       +
-                    (GPSRAW[14]-48)*0.1     +
-                    (GPSRAW[15]-48)*0.01    +
-                    (GPSRAW[16]-48)*0.001   ;
+   gps.timestamp = (GPSRAW[7]-48)*100000   +
+                  (GPSRAW[8]-48)*10000    +
+                  (GPSRAW[9]-48)*1000     +
+                  (GPSRAW[10]-48)*100     +
+                  (GPSRAW[11]-48)*10      +
+                  (GPSRAW[12]-48)*1       +
+                  (GPSRAW[14]-48)*0.1     +
+                  (GPSRAW[15]-48)*0.01    +
+                  (GPSRAW[16]-48)*0.001   ;
 
-    gps.isValid = (GPSRAW[18] == 'A');
+   gps.isValid = (GPSRAW[18] == 'A');
 
-    if(1){
+   if(1)
+   {
 
-        gps.latitude = (GPSRAW[30] == 'N' ? 1 : -1) * 
-                        (
-                           (GPSRAW[20]-48)*10 + 
-                           (GPSRAW[21]-48) + 
-                           (
-                              (GPSRAW[22]-48)*10 +
-                              (GPSRAW[23]-48)*1 +
-                              (GPSRAW[25]-48)*0.1 +
-                              (GPSRAW[26]-48)*0.01 +
-                              (GPSRAW[27]-48)*0.001 
-                           )/60.00
-                        );
+      gps.latitude = (GPSRAW[30] == 'N' ? 1 : -1) * 
+      (
+         (GPSRAW[20]-48)*10 + 
+         (GPSRAW[21]-48) + 
+         (
+            (GPSRAW[22]-48)*10 +
+            (GPSRAW[23]-48)*1 +
+            (GPSRAW[25]-48)*0.1 +
+            (GPSRAW[26]-48)*0.01 +
+            (GPSRAW[27]-48)*0.001 
+         )/60.00
+      );
          
-    gps.longitude = (GPSRAW[43] == 'E' ? 1 : -1) * 
-                (
-                    (GPSRAW[32]-48)*100 + 
-                    (GPSRAW[33]-48)*10 +
-                    (GPSRAW[34]-48)*1 +
-                    (
-                        (GPSRAW[35]-48)*10 +
-                        (GPSRAW[36]-48)*1 +
-                        (GPSRAW[38]-48)*0.1 +
-                        (GPSRAW[39]-48)*0.01 +
-                        (GPSRAW[40]-48)*0.001 
-                    )/60.00
-                );
-    }else{
-        gps.latitude = 0;
-        gps.longitude = 0;
-    }
+      gps.longitude = (GPSRAW[43] == 'E' ? 1 : -1) * 
+      (
+         (GPSRAW[32]-48)*100 + 
+         (GPSRAW[33]-48)*10 +
+         (GPSRAW[34]-48)*1 +
+         (
+            (GPSRAW[35]-48)*10 +
+            (GPSRAW[36]-48)*1 +
+            (GPSRAW[38]-48)*0.1 +
+            (GPSRAW[39]-48)*0.01 +
+            (GPSRAW[40]-48)*0.001 
+         )/60.00
+      );
+   }
+   else
+   {
+      gps.latitude = 0;
+      gps.longitude = 0;
+   }
 }
 
 /**
@@ -130,9 +134,10 @@ void GPS_parseData(void){
  * @param targetLon 
  * @return long distance in feet; 
  */
-double GPS_calcDistanceFargo( double currentLat,  double currentLon,  double targetLat,  double targetLon){
-     double latDist = (targetLat - currentLat)*250000.00;
-     double lonDist = (targetLon- currentLon) *363636.00;
+double GPS_calcDistanceFargo( double currentLat,  double currentLon,  double targetLat,  double targetLon)
+{
+   double latDist = (targetLat - currentLat)*250000.00;
+   double lonDist = (targetLon- currentLon) *363636.00;
 
-     return sqrt(latDist*latDist + lonDist*lonDist);
+   return sqrt(latDist*latDist + lonDist*lonDist);
 }
