@@ -10,7 +10,7 @@ double hector_international_airport[] = {46.918720, -96.816482};
 double targetLat, targetLong;
 
 // Interrupts/Menu Variables
-unsigned int selection, TIME, RUN, temp;
+unsigned int selection, TIME, RUN, temp, debounceTime = 0;
 
 void menuInit(void);
 

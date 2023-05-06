@@ -24,7 +24,7 @@ void serialISR(void);
 
 void GPS_parseData(void);
 
-double GPS_calcDistanceFargo(double currentLat, double currentLon, double targetLat, double targetLon);
+float GPS_calcDistanceFargo(float currentLat, float currentLon, float targetLat, float targetLon);
 
 
 

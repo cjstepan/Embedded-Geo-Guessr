@@ -100,22 +100,25 @@ void GPS_parseData(void)
             (GPSRAW[23]-48)*1 +
             (GPSRAW[25]-48)*0.1 +
             (GPSRAW[26]-48)*0.01 +
-            (GPSRAW[27]-48)*0.001 
+            (GPSRAW[27]-48)*0.001 +
+            (GPSRAW[28]-48)*0.0001
          )/60.00
       );
-         
+      float latTmp =  (
+            (GPSRAW[35]-48)*10 +
+            (GPSRAW[36]-48)*1 +
+            (GPSRAW[38]-48)*0.1 +
+            (GPSRAW[39]-48)*0.01 +
+            (GPSRAW[40]-48)*0.001 +
+            (GPSRAW[41]-48)*0.0001 
+         )/60.00;
       gps.longitude = (GPSRAW[43] == 'E' ? 1 : -1) * 
       (
          (GPSRAW[32]-48)*100 + 
          (GPSRAW[33]-48)*10 +
          (GPSRAW[34]-48)*1 +
-         (
-            (GPSRAW[35]-48)*10 +
-            (GPSRAW[36]-48)*1 +
-            (GPSRAW[38]-48)*0.1 +
-            (GPSRAW[39]-48)*0.01 +
-            (GPSRAW[40]-48)*0.001 
-         )/60.00
+         latTmp
+        
       );
    }
    else
@@ -134,10 +137,10 @@ void GPS_parseData(void)
  * @param targetLon 
  * @return long distance in feet; 
  */
-double GPS_calcDistanceFargo( double currentLat,  double currentLon,  double targetLat,  double targetLon)
+float GPS_calcDistanceFargo( float currentLat,  float currentLon,  float targetLat,  float targetLon)
 {
-   double latDist = (targetLat - currentLat)*250000.00;
-   double lonDist = (targetLon- currentLon) *363636.00;
+   float latDist = (targetLat - currentLat)*363500.00;
+   float lonDist = (targetLon- currentLon) *248803.57;
 
    return sqrt(latDist*latDist + lonDist*lonDist);
 }
