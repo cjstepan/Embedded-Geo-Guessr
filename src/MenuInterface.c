@@ -68,6 +68,9 @@ void menuInit(void)
     LCD_writeLine("Distance:       ", 0);
     Wait_ms(1000);
     LCD_writeLine("Time:           ", 1);
+
+    RUN = 1; //start timer
+    return;
 }
 
 void timer2Init(void)
@@ -86,18 +89,20 @@ void timer2ISR(void)
 	{
 		if(!RUN)
 		{
-			if(RB0) 
+			if(RB0 && (TIME - debounceTime)>50) 
 			{
 				RUN = 1;
+                debounceTime = TIME;
 			}
 			temp = 10;
 		}
 		if(RUN) 
 		{
 			TIME += 1;
-            if(RB0)
+            if(RB0 && (TIME - debounceTime)>50)
             {
                 RUN = 0;
+                debounceTime = TIME;
             }
 		}
 		TMR2IF = 0;
